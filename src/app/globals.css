@@ -2,26 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* https://colormagic.app/palette/EjAuxBhbIs7g0Wtx9cj0 */
+
 :root {
-  --background: #ffffff;
+  --background: #79a45691;
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: linear-gradient(
+    135deg,
+    #79a45699 20%,
+    #79a45675 30%,
+    #79a45699 60%,
+    #79a45675 90%,
+    #79a45699 100%
+  );
   font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
 }
