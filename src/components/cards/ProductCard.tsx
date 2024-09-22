@@ -45,7 +45,7 @@ const ProductCard = ({
   };
 
   return (
-    <article id={id} className="w-full bg-white rounded-lg">
+    <article id={id} className="w-full flex flex-col bg-white rounded-lg">
       <div className="w-full p-4 rounded-lg relative">
         <Image
           className="w-full h-64 object-cover object-center flex justify-center rounded-md"
