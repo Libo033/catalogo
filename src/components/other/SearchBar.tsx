@@ -16,6 +16,7 @@ const SearchBar = () => {
             </InputAdornment>
           ),
         }}
+        size="small"
         variant="outlined"
         sx={{ backgroundColor: "#fff", borderRadius: "4px" }}
       />
