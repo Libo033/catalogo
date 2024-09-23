@@ -1,12 +1,8 @@
 import ProductCard from "@/components/cards/ProductCard";
-import SearchBar from "@/components/other/SearchBar";
 
 export default function Home() {
   return (
     <div className="px-8 md:px-6">
-      <div className="flex gap-3 pt-6 sm:justify-between">
-        <SearchBar />
-      </div>
       <section className="py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3">
         <ProductCard
           id={"1"}
