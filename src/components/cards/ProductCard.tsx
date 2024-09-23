@@ -22,8 +22,8 @@ const ProductCard = ({
 
   const shareProduct = () => {
     const product: ShareData = {
-      title: description,
-      text: "",
+      title: "Me interesa!",
+      text: description,
       url: `http://192.168.0.190:3000/#${id}`,
     };
 
@@ -56,7 +56,7 @@ const ProductCard = ({
         />
         <div className="absolute bg-[#11111199] rounded-md bottom-6 right-6">
           <p className="text-white text-sm font-bold px-3 py-1">
-            $ {Intl.NumberFormat().format(price)}
+            $ {price}
           </p>
         </div>
       </div>
