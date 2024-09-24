@@ -45,7 +45,7 @@ const ProductCard = ({
   };
 
   return (
-    <article id={id} className="w-full flex flex-col bg-white rounded-lg">
+    <article id={id} className="w-full flex flex-col bg-white border shadow-lg rounded-lg">
       <div className="w-full p-4 rounded-lg relative">
         <Image
           className="w-full h-64 object-cover object-center flex justify-center rounded-md"
@@ -55,9 +55,7 @@ const ProductCard = ({
           height={1200}
         />
         <div className="absolute bg-[#11111199] rounded-md bottom-6 right-6">
-          <p className="text-white text-sm font-bold px-3 py-1">
-            $ {price}
-          </p>
+          <p className="text-white text-sm font-bold px-3 py-1">$ {price}</p>
         </div>
       </div>
       <div className="h-full px-4 flex flex-col justify-between gap-2">

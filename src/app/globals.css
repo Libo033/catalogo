@@ -20,9 +20,9 @@ body {
   background: linear-gradient(
     135deg,
     #fff 20%,
-    #c5d86e 30%,
+    #c5d86e99 30%,
     #fff 60%,
-    #c5d86e 90%,
+    #c5d86e99 90%,
     #fff 100%
   );
   font-family: Arial, Helvetica, sans-serif;
