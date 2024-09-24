@@ -4,7 +4,7 @@ import React from "react";
 
 const SearchBar = () => {
   return (
-    <div className="bg-transparent w-full sm:w-96">
+    <div className="bg-transparent w-full sm:max-w-96">
       <TextField
         fullWidth
         autoComplete="off"
