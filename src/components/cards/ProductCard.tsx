@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -45,7 +46,10 @@ const ProductCard = ({
   };
 
   return (
-    <article id={id} className="w-full flex flex-col bg-white border shadow-lg rounded-lg">
+    <article
+      id={id}
+      className="w-full flex flex-col bg-white border shadow-lg rounded-lg"
+    >
       <div className="w-full p-4 rounded-lg relative">
         <Image
           className="w-full h-64 object-cover object-center flex justify-center rounded-md"
@@ -64,20 +68,22 @@ const ProductCard = ({
       </div>
       <div className="px-4 pt-4 pb-2">
         {shareError === undefined ? (
-          <button
-            onClick={() => shareProduct()}
-            className={`uppercase duration-100 border w-full py-2 rounded-xl font-medium ${
-              shared ? " bg-[#79a456] text-white" : ""
-            }`}
+          <Button
+            onClick={shareProduct}
+            sx={{
+              color: "#fff",
+              borderColor: "#2b5e2c",
+              backgroundColor: "#2b5e2c",
+            }}
+            fullWidth
+            variant="contained"
           >
             COMPARTIR
-          </button>
+          </Button>
         ) : (
-          <p
-            className={`uppercase duration-100 border w-full py-2 text-sm bg-red-600 text-white text-center rounded-xl font-medium`}
-          >
+          <Button fullWidth variant="contained" color="error">
             {shareError.message}
-          </p>
+          </Button>
         )}
       </div>
     </article>

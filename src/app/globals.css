@@ -19,11 +19,11 @@ body {
   color: var(--foreground);
   background: linear-gradient(
     135deg,
-    #fff 20%,
+    #f9f97199 20%,
     #c5d86e99 30%,
-    #fff 60%,
+    #f9f971 60%,
     #c5d86e99 90%,
-    #fff 100%
+    #f9f97199 100%
   );
   font-family: Arial, Helvetica, sans-serif;
 }
