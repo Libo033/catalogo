@@ -12,6 +12,7 @@ export default function Home() {
           category={"Perfumeria"}
           description={"Perfume magico con olor"}
           price={8500}
+          oferta={false}
         />
         <ProductCard
           id={"2"}
@@ -21,6 +22,7 @@ export default function Home() {
           category={"Ropa interior"}
           description={"Ropa super extra suave"}
           price={9000}
+          oferta={false}
         />
         <ProductCard
           id={"3"}
@@ -30,6 +32,7 @@ export default function Home() {
           category={"Ropa interior"}
           description={"Ropa super extra suave"}
           price={9000}
+          oferta={false}
         />
         <ProductCard
           id={"4"}
@@ -39,6 +42,7 @@ export default function Home() {
           category={"Ropa interior"}
           description={"Ropa super extra suave"}
           price={9000}
+          oferta={true}
         />
         <ProductCard
           id={"5"}
@@ -48,6 +52,7 @@ export default function Home() {
           category={"Ropa interior"}
           description={"Ropa super extra suave"}
           price={9000}
+          oferta={false}
         />
       </section>
     </div>

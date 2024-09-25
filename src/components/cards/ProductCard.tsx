@@ -9,6 +9,7 @@ interface ProductCardProps {
   category: string;
   description: string;
   price: number;
+  oferta: boolean;
 }
 
 const ProductCard = ({
@@ -17,6 +18,7 @@ const ProductCard = ({
   category,
   description,
   price,
+  oferta,
 }: Readonly<ProductCardProps>) => {
   const [shared, setShared] = useState<boolean>(false);
   const [shareError, setShareError] = useState<Error | undefined>();
@@ -58,9 +60,17 @@ const ProductCard = ({
           width={1200}
           height={1200}
         />
-        <div className="absolute bg-[#11111199] rounded-md bottom-6 right-6">
-          <p className="text-white text-sm font-bold px-3 py-1">$ {price}</p>
-        </div>
+        {oferta ? (
+          <div className="absolute bg-[#f9f971] rounded-md bottom-6 right-6">
+            <p className="text-black text-sm font-bold px-3 py-1">
+              OFERTA $ {price}
+            </p>
+          </div>
+        ) : (
+          <div className="absolute bg-[#11111199] rounded-md bottom-6 right-6">
+            <p className="text-white text-sm font-bold px-3 py-1">$ {price}</p>
+          </div>
+        )}
       </div>
       <div className="h-full px-4 flex flex-col justify-between gap-2">
         <p className="text-[#2b5e2c] font-extrabold">{category}</p>
