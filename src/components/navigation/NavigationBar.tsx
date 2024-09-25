@@ -42,7 +42,7 @@ const NavigationBar = () => {
         <SearchBar />
       </div>
       <Drawer anchor="top" open={toggleDrawer} onClose={onCloseDrawer}>
-        <NavigationDrawer />
+        <NavigationDrawer onCloseDrawer={onCloseDrawer} category={["Perfumeria", "Ropa Interior", "Cremas"]} />
       </Drawer>
     </nav>
   );
