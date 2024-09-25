@@ -14,9 +14,14 @@ const NavigationDrawer = ({
     <div className="bg-[#79a45660] overflow-hidden py-10 px-4">
       <div className="flex flex-col">
         <p className="text-2xl font-bold underline">Categorias</p>
-        <div className="pt-2">
+        <div className="pt-2 flex flex-wrap gap-3">
           {category.map((cat) => (
-            <p className="text-lg font-semibold" key={cat}>- {cat}</p>
+            <p
+              className="text-lg text-white font-medium bg-[#6a9ea999] w-fit px-5 border border-[#6a9ea9] rounded-lg"
+              key={cat}
+            >
+              {cat}
+            </p>
           ))}
         </div>
       </div>
