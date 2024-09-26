@@ -1,6 +1,6 @@
 "use client";
 import { Close } from "@mui/icons-material";
-import { Button, Slider, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 
@@ -9,34 +9,12 @@ interface NavigationDrawerProps {
   category: Array<string>;
 }
 
-function valuetext(value: number) {
-  return `$ ${value}`;
-}
-
 const NavigationDrawer = ({
   onCloseDrawer,
   category,
 }: Readonly<NavigationDrawerProps>) => {
-  const [value1, setValue1] = React.useState<number[]>([20, 37]);
-
-  const handleChange1 = (
-    event: Event,
-    newValue: number | number[],
-    activeThumb: number
-  ) => {
-    if (!Array.isArray(newValue)) {
-      return;
-    }
-
-    if (activeThumb === 0) {
-      setValue1([Math.min(newValue[0], value1[1] - 0), value1[1]]);
-    } else {
-      setValue1([value1[0], Math.max(newValue[1], value1[0] + 0)]);
-    }
-  };
-
   return (
-    <div className="overflow-hidden py-10 px-4">
+    <div className="overflow-hidden py-10 px-4 md:hidden">
       <div className="flex flex-col">
         <p className="text-2xl font-bold underline">Categorias</p>
         <div className="pt-2 flex flex-wrap gap-3">
