@@ -17,6 +17,11 @@
 
 body {
   color: var(--foreground);
+
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*
   background: linear-gradient(
     135deg,
     #f9f97199 20%,
@@ -25,5 +30,4 @@ body {
     #c5d86e99 90%,
     #f9f97199 100%
   );
-  font-family: Arial, Helvetica, sans-serif;
-}
+*/
