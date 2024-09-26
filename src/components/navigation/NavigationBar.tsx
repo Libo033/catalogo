@@ -4,10 +4,11 @@ import Link from "next/link";
 import React, { useCallback, useState } from "react";
 import SearchBar from "../other/SearchBar";
 import NavigationDrawer from "./NavigationDrawer";
-import { Drawer } from "@mui/material";
+import { Dialog, Drawer } from "@mui/material";
 
 const NavigationBar = () => {
   const [toggleDrawer, setToggleDrawer] = useState<boolean>(false);
+  const [toggleDialog, setToggleDialog] = useState<boolean>(false);
 
   const onOpenDrawer = useCallback(() => {
     setToggleDrawer(true);
@@ -15,6 +16,14 @@ const NavigationBar = () => {
 
   const onCloseDrawer = useCallback(() => {
     setToggleDrawer(false);
+  }, []);
+
+  const onOpenDialog = useCallback(() => {
+    setToggleDialog(true);
+  }, []);
+
+  const onCloseDialog = useCallback(() => {
+    setToggleDialog(false);
   }, []);
 
   return (
@@ -40,6 +49,7 @@ const NavigationBar = () => {
           </li>
           <li className="hidden mx-8 md:block">
             <FilterAlt
+              onClick={onOpenDialog}
               sx={{ fontSize: "45px", color: "white", cursor: "pointer" }}
             />
           </li>
@@ -59,6 +69,9 @@ const NavigationBar = () => {
             ]}
           />
         </Drawer>
+        <Dialog open={toggleDialog} onClose={onCloseDialog}>
+          Hola
+        </Dialog>
       </nav>
     </div>
   );
