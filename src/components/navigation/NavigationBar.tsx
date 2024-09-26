@@ -5,6 +5,15 @@ import React, { useCallback, useState } from "react";
 import SearchBar from "../other/SearchBar";
 import NavigationDrawer from "./NavigationDrawer";
 import { Dialog, Drawer } from "@mui/material";
+import DialogFilter from "../other/DialogFilter";
+
+const categoryMock = [
+  "Perfumeria",
+  "Ropa Interior",
+  "Cremas",
+  "Ofertas",
+  "Cabello",
+];
 
 const NavigationBar = () => {
   const [toggleDrawer, setToggleDrawer] = useState<boolean>(false);
@@ -60,17 +69,11 @@ const NavigationBar = () => {
         <Drawer anchor="top" open={toggleDrawer} onClose={onCloseDrawer}>
           <NavigationDrawer
             onCloseDrawer={onCloseDrawer}
-            category={[
-              "Perfumeria",
-              "Ropa Interior",
-              "Cremas",
-              "Ofertas",
-              "Cabello",
-            ]}
+            category={categoryMock}
           />
         </Drawer>
         <Dialog open={toggleDialog} onClose={onCloseDialog}>
-          Hola
+          <DialogFilter onCloseDialog={onCloseDialog} category={categoryMock} />
         </Dialog>
       </nav>
     </div>
