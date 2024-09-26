@@ -5,7 +5,7 @@ import React, { useCallback, useState } from "react";
 import SearchBar from "../other/SearchBar";
 import NavigationDrawer from "./NavigationDrawer";
 import { Dialog, Drawer } from "@mui/material";
-import DialogFilter from "../other/DialogFilter";
+import FilterBox from "../other/FilterBox";
 
 const categoryMock = [
   "Perfumeria",
@@ -73,7 +73,7 @@ const NavigationBar = () => {
           />
         </Drawer>
         <Dialog open={toggleDialog} onClose={onCloseDialog}>
-          <DialogFilter onCloseDialog={onCloseDialog} category={categoryMock} />
+          <FilterBox onCloseDialog={onCloseDialog} category={categoryMock} />
         </Dialog>
       </nav>
     </div>

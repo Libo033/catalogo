@@ -8,7 +8,7 @@ interface DialogFilterProps {
   category: Array<string>;
 }
 
-const DialogFilter = ({
+const FilterBox = ({
   onCloseDialog,
   category,
 }: Readonly<DialogFilterProps>) => {
@@ -29,4 +29,4 @@ const DialogFilter = ({
   );
 };
 
-export default DialogFilter;
+export default FilterBox;
