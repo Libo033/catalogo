@@ -73,8 +73,9 @@ const ProductCard = ({
         <p className="font-medium h-12 text-pretty">{description}</p>
       </div>
       <div className="min-h-[28px] mx-4 grid grid-flow-col gap-2 overflow-x-auto overflow-y-hidden">
-        {various.map((ch) => (
+        {various.map((i, ch) => (
           <Chip
+            key={i + ch}
             label={ch}
             size="small"
             sx={{ backgroundColor: "#c5d86e", width: "fit-content" }}
