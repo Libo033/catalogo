@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 
@@ -9,7 +9,8 @@ interface ProductCardProps {
   category: string;
   description: string;
   price: number;
-  oferta: boolean;
+  sale: boolean;
+  various: Array<string>;
 }
 
 const ProductCard = ({
@@ -18,9 +19,9 @@ const ProductCard = ({
   category,
   description,
   price,
-  oferta,
+  sale,
+  various,
 }: Readonly<ProductCardProps>) => {
-  const [shared, setShared] = useState<boolean>(false);
   const [shareError, setShareError] = useState<Error | undefined>();
 
   const shareProduct = () => {
@@ -33,12 +34,7 @@ const ProductCard = ({
     if (navigator) {
       navigator
         .share(product)
-        .then(() => {
-          setShared(true);
-          setInterval(() => {
-            setShared(false);
-          }, 6000);
-        })
+        .then(() => console.log("Compartiendo..."))
         .catch((err: Error) =>
           setShareError(new Error("No se pudo compartir"))
         );
@@ -60,7 +56,7 @@ const ProductCard = ({
           width={1200}
           height={1200}
         />
-        {oferta ? (
+        {sale ? (
           <div className="absolute bg-[#f9f971] rounded-md bottom-6 right-6">
             <p className="text-black text-sm font-bold px-3 py-1">
               OFERTA $ {price}
@@ -75,6 +71,15 @@ const ProductCard = ({
       <div className="h-full px-4 flex flex-col justify-between gap-2">
         <p className="text-[#2b5e2c] font-extrabold">{category}</p>
         <p className="font-medium h-12 text-pretty">{description}</p>
+      </div>
+      <div className="min-h-[28px] mx-4 grid grid-flow-col gap-2 overflow-x-auto overflow-y-hidden">
+        {various.map((ch) => (
+          <Chip
+            label={ch}
+            size="small"
+            sx={{ backgroundColor: "#c5d86e", width: "fit-content" }}
+          />
+        ))}
       </div>
       <div className="px-4 pt-4 pb-2">
         {shareError === undefined ? (
