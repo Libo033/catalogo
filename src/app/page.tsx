@@ -1,8 +1,9 @@
 import ProductCard from "@/components/cards/ProductCard";
 import Image from "next/image";
 import cartCat from "../images/cart-cat.png";
+import { ProductCardProps } from "@/lib/interfaces";
 
-const prods = [
+const prods: Array<ProductCardProps> = [
   {
     id: "1",
     image:

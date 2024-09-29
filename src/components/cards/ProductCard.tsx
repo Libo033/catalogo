@@ -1,18 +1,9 @@
 "use client";
+import { ProductCardProps } from "@/lib/interfaces";
 import { Button, Chip } from "@mui/material";
 import Image from "next/image";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useState } from "react";
-
-interface ProductCardProps {
-  id: string;
-  image: string;
-  category: string;
-  description: string;
-  price: number;
-  sale: boolean;
-  various: Array<string>;
-}
 
 const ProductCard = ({
   id,
