@@ -1,6 +1,7 @@
 "use client";
 import { Button, Chip } from "@mui/material";
 import Image from "next/image";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 
 interface ProductCardProps {
@@ -23,6 +24,11 @@ const ProductCard = ({
   various,
 }: Readonly<ProductCardProps>) => {
   const [shareError, setShareError] = useState<Error | undefined>();
+  const searchParams = useSearchParams();
+  let searchBar = searchParams.get("search");
+  let showCard: boolean = searchBar
+    ? description.toLowerCase().includes(searchBar.toLowerCase())
+    : true;
 
   const shareProduct = () => {
     const product: ShareData = {
@@ -46,7 +52,9 @@ const ProductCard = ({
   return (
     <article
       id={id}
-      className="w-full flex flex-col bg-white border shadow-lg rounded-lg"
+      className={`${
+        showCard ? "flex" : "hidden"
+      } w-full flex flex-col bg-white border shadow-lg rounded-lg`}
     >
       <div className="w-full p-4 rounded-lg relative">
         <Image
