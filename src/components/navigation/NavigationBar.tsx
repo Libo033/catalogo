@@ -5,7 +5,7 @@ import React, { useCallback, useState } from "react";
 import SearchBar from "../other/SearchBar";
 import NavigationDrawer from "./NavigationDrawer";
 import { Dialog, Drawer } from "@mui/material";
-import FilterBox from "../other/FilterBox";
+import FilterBox from "../filters/FilterBox";
 import { usePathname } from "next/navigation";
 
 const categoryMock = [
