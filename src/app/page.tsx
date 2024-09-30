@@ -1,7 +1,10 @@
+"use client";
 import ProductCard from "@/components/cards/ProductCard";
 import Image from "next/image";
 import cartCat from "../images/cart-cat.png";
 import { ProductCardProps } from "@/lib/interfaces";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const prods: Array<ProductCardProps> = [
   {
@@ -47,12 +50,27 @@ const prods: Array<ProductCardProps> = [
 ];
 
 export default function Home() {
+  const [productos, setProductos] = useState<Array<ProductCardProps>>(prods);
+  const searchParams = useSearchParams();
+  let searchBar = searchParams.get("search") || "";
+
+  useEffect(() => {
+    searchBar === ""
+      ? setProductos(prods)
+      : setProductos(
+          prods.filter((p) =>
+            p.description.toLowerCase().includes(searchBar.toLowerCase())
+          )
+        );
+    return () => {};
+  }, [searchBar]);
+
   return (
     <div className="mx-auto max-w-screen-2xl">
       <div className="pt-[137px] px-8 sm:pt-[76px] md:px-6">
         <section className="py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3">
-          {prods.length > 0 ? (
-            prods.map((p) => (
+          {productos.length > 0 ? (
+            productos.map((p) => (
               <ProductCard
                 key={p.id}
                 id={p.id}
