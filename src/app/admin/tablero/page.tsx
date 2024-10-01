@@ -1,5 +1,6 @@
 import ProductCardAdmin from "@/components/cards/ProductCardAdmin";
 import { ProductCardProps } from "@/lib/interfaces";
+import Link from "next/link";
 import React from "react";
 
 const prods: Array<ProductCardProps> = [
@@ -49,7 +50,15 @@ const page = () => {
   return (
     <div className="mx-auto max-w-screen-2xl">
       <div className="pt-[137px] px-8 sm:pt-[76px] md:px-6">
-        <section className="py-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3">
+        <div className="pt-4">
+          <Link
+            className="flex items-center gap-2 underline text-blue-600"
+            href={"/admin/tablero/producto"}
+          >
+            Nuevo producto
+          </Link>
+        </div>
+        <section className="py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3">
           {prods.map((p) => (
             <ProductCardAdmin
               key={p.id + p.image}
