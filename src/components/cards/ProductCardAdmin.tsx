@@ -2,6 +2,7 @@ import { ProductCardProps } from "@/lib/interfaces";
 import { Button, Chip } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 import React from "react";
 
 const ProductCardAdmin = ({
@@ -14,6 +15,26 @@ const ProductCardAdmin = ({
   various,
 }: Readonly<ProductCardProps>) => {
   const r = useRouter();
+
+  const handleDeleteProduct = () => {
+    Swal.fire({
+      title: "Borrar producto?",
+      text: "Una vez borrado no se puede recuperar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, borrar!",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Borrado!",
+          icon: "success",
+        });
+      }
+    });
+  };
 
   return (
     <article
@@ -63,7 +84,12 @@ const ProductCardAdmin = ({
         >
           editar
         </Button>
-        <Button fullWidth color="error" variant="contained">
+        <Button
+          fullWidth
+          onClick={() => handleDeleteProduct()}
+          color="error"
+          variant="contained"
+        >
           borrar
         </Button>
       </div>
