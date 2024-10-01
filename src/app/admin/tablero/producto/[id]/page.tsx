@@ -1,3 +1,4 @@
+import ProductForm from "@/components/forms/ProductForm";
 import Link from "next/link";
 import React from "react";
 
@@ -13,6 +14,7 @@ const page = ({ params }: { params: { id: string } }) => {
             Volver
           </Link>
         </div>
+        <ProductForm id={params.id} />
       </div>
     </div>
   );
