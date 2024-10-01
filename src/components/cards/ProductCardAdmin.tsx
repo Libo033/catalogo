@@ -1,6 +1,7 @@
 import { ProductCardProps } from "@/lib/interfaces";
 import { Button, Chip } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ProductCardAdmin = ({
@@ -12,6 +13,8 @@ const ProductCardAdmin = ({
   sale,
   various,
 }: Readonly<ProductCardProps>) => {
+  const r = useRouter();
+
   return (
     <article
       id={id}
@@ -52,7 +55,12 @@ const ProductCardAdmin = ({
         ))}
       </div>
       <div className="px-4 pt-4 pb-4 flex gap-2">
-        <Button fullWidth color="primary" variant="contained">
+        <Button
+          onClick={() => r.push(`/admin/tablero/producto/${id}`)}
+          fullWidth
+          color="primary"
+          variant="contained"
+        >
           editar
         </Button>
         <Button fullWidth color="error" variant="contained">
