@@ -1,9 +1,14 @@
 "use client";
 import { ProductCardProps } from "@/lib/interfaces";
-import { AddCircleOutline, ImageOutlined } from "@mui/icons-material";
+import {
+  AddCircleOutline,
+  CloseRounded,
+  ImageOutlined,
+} from "@mui/icons-material";
 import { Button, Chip, TextField } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Image from "next/image";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 
 interface ProductFormProps {
@@ -21,7 +26,7 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
     various: [],
   });
 
-  const addVarious = () => {
+  const handleAddVarious = () => {
     let newVarious = (
       document.getElementById("variosTextfield") as HTMLInputElement
     ).value;
@@ -30,6 +35,10 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
       (document.getElementById("variosTextfield") as HTMLInputElement).value =
         "";
     }
+  };
+
+  const handleDeleteImage = () => {
+    setProduct({ ...product, image: "" });
   };
 
   const handleCreateProduct = (Event: FormEvent) => {
@@ -134,6 +143,21 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
             <AddCircleOutline />
           </Button>
         </div>
+        {product.image && (
+          <div className="relative w-full sm:w-96">
+            <Image
+              className="rounded-lg w-full"
+              src={product.image}
+              alt={product.description}
+              width={2000}
+              height={2000}
+            />
+            <CloseRounded
+              onClick={handleDeleteImage}
+              className="z-10 absolute text-4xl text-white bg-[#00000090] rounded-full top-1 right-1"
+            />
+          </div>
+        )}
         <div className="w-full flex gap-2 sm:w-96">
           <TextField
             fullWidth
@@ -141,7 +165,7 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
             label="Varios"
             variant="outlined"
           />
-          <Button onClick={() => addVarious()} variant="outlined">
+          <Button onClick={() => handleAddVarious()} variant="outlined">
             <AddCircleOutline />
           </Button>
         </div>
