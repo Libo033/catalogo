@@ -8,8 +8,10 @@ import {
 import { Button, Chip, TextField } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useFormState } from "react-dom";
 
 interface ProductFormProps {
   id: string | null;
@@ -39,6 +41,17 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
 
   const handleDeleteImage = () => {
     setProduct({ ...product, image: "" });
+  };
+
+  // "any" Error al buscar el secure_url
+  const handleLoadImage = (res: any) => {
+    if (res.event === "queues-end") {
+      let image = res.info.files[0].uploadInfo.secure_url;
+
+      if (product.image === "" && typeof image === "string") {
+        setProduct({ ...product, image: image });
+      }
+    }
   };
 
   const handleCreateProduct = (Event: FormEvent) => {
@@ -131,17 +144,23 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
           />
         </div>
         <div className="w-full flex gap-2 sm:w-96">
-          <TextField fullWidth label="Imagen" variant="outlined" />
-
-          {/*Boton para agregar imagen desde dispositivo*/}
-          <Button variant="outlined">
-            <ImageOutlined />
-          </Button>
-
-          {/*Boton para agregar imagen desde URL*/}
-          <Button variant="outlined">
-            <AddCircleOutline />
-          </Button>
+          <CldUploadWidget uploadPreset="07-catalogo-gri">
+            {({ open, results }) => {
+              results && handleLoadImage(results);
+              return (
+                <Button
+                  fullWidth
+                  className="flex gap-3"
+                  size="large"
+                  variant="outlined"
+                  onClick={() => open()}
+                >
+                  <ImageOutlined />
+                  Subir imagen
+                </Button>
+              );
+            }}
+          </CldUploadWidget>
         </div>
         {product.image && (
           <div className="relative w-full sm:w-96">
@@ -154,7 +173,7 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
             />
             <CloseRounded
               onClick={handleDeleteImage}
-              className="z-10 absolute text-4xl text-white bg-[#00000090] rounded-full top-1 right-1"
+              className="z-10 cursor-pointer absolute text-4xl text-white bg-[#00000090] rounded-full top-1 right-1"
             />
           </div>
         )}
