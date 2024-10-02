@@ -1,4 +1,5 @@
 "use client";
+import { handleDeleteImageFromCld } from "@/lib/cloudinary/handleDeleteImage";
 import { ProductCardProps } from "@/lib/interfaces";
 import {
   AddCircleOutline,
@@ -11,7 +12,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useFormState } from "react-dom";
+import Swal from "sweetalert2";
 
 interface ProductFormProps {
   id: string | null;
@@ -40,7 +41,19 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
   };
 
   const handleDeleteImage = () => {
-    setProduct({ ...product, image: "" });
+    const deleted: boolean | Error = handleDeleteImageFromCld(
+      product.image,
+      "07-catalogo-gri"
+    );
+    if (deleted) {
+      setProduct({ ...product, image: "" });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Algo salio mal",
+      });
+    }
   };
 
   // "any" Error al buscar el secure_url
