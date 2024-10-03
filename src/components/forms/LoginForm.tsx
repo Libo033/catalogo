@@ -1,10 +1,39 @@
 "use client";
 import { Button } from "@mui/material";
+import { useRouter } from "next/navigation";
 import React, { FormEvent } from "react";
+import Swal from "sweetalert2";
 
 const LoginForm = () => {
-  const handleLogin = (Event: FormEvent) => {
+  const router = useRouter();
+
+  const handleLogin = async (
+    Event: FormEvent,
+    email: string,
+    password: string
+  ) => {
     Event.preventDefault();
+
+    const res: Response = await fetch("/api/v1/session", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+
+    console.log(data);
+
+    if (data.code === 200) {
+      router.push("/admin/tablero");
+    } else {
+      if (true) {
+        Swal.fire({
+          icon: "error",
+          title: "Error al iniciar sesion",
+          text: data.Error,
+        });
+      }
+    }
   };
 
   return (
@@ -16,7 +45,14 @@ const LoginForm = () => {
               Administracion Catalogo
             </p>
             <form
-              onSubmit={(Event: FormEvent) => handleLogin(Event)}
+              onSubmit={(Event: FormEvent) =>
+                handleLogin(
+                  Event,
+                  (document.getElementById("email") as HTMLInputElement).value,
+                  (document.getElementById("password") as HTMLInputElement)
+                    .value
+                )
+              }
               className="space-y-4 md:space-y-6"
             >
               <div>
