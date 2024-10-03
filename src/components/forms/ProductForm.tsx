@@ -40,8 +40,8 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
     }
   };
 
-  const handleDeleteImage = () => {
-    const deleted: boolean | Error = handleDeleteImageFromCld(
+  const handleDeleteImage = async () => {
+    const deleted: boolean | Error = await handleDeleteImageFromCld(
       product.image,
       "07-catalogo-gri"
     );

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Sora } from "next/font/google";
 import NavigationBar from "@/components/navigation/NavigationBar";
+import { Suspense } from "react";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -23,7 +24,7 @@ export default function RootLayout({
     <html lang="es">
       <body className={sora.className}>
         <NavigationBar />
-        {children}
+        <Suspense>{children}</Suspense>
       </body>
     </html>
   );
