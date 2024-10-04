@@ -6,68 +6,55 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import cartCat from "../../../images/cart-cat.png";
-
-const prods: Array<ProductCardProps> = [
-  {
-    id: "1",
-    image:
-      "https://res.cloudinary.com/dsuydyqgz/image/upload/v1694437727/01-varios/b4zoifzipxf6rz0czh4i.jpg",
-    category: "Perfumeria",
-    description: "Perfume 123",
-    price: 10000,
-    sale: false,
-    various: ["Amaderado"],
-  },
-  {
-    id: "2",
-    image:
-      "https://res.cloudinary.com/dsuydyqgz/image/upload/v1715262308/07-catalogo-gri/ounthzvrsfniejttqadi.jpg",
-    category: "Productos",
-    description: "Crema de planta",
-    price: 10000,
-    sale: false,
-    various: [],
-  },
-  {
-    id: "3",
-    image:
-      "https://res.cloudinary.com/dsuydyqgz/image/upload/v1694437727/01-varios/b4zoifzipxf6rz0czh4i.jpg",
-    category: "Ropa Interior",
-    description: "Ropa 123456",
-    price: 9999,
-    sale: true,
-    various: ["Talle M"],
-  },
-  {
-    id: "4",
-    image:
-      "https://res.cloudinary.com/dsuydyqgz/image/upload/v1715262308/07-catalogo-gri/ounthzvrsfniejttqadi.jpg",
-    category: "Perfumeria",
-    description: "Perfume 999",
-    price: 119999,
-    sale: true,
-    various: ["Citrico"],
-  },
-];
+import { Alert, AlertTitle } from "@mui/material";
 
 const page = () => {
-  const [productos, setProductos] = useState<Array<ProductCardProps>>(prods);
+  const [productos, setProductos] = useState<Array<ProductCardProps>>([]);
+  const [error, setError] = useState<Error | undefined>(undefined);
   const searchParams = useSearchParams();
   let searchBar = searchParams.get("search") || "";
 
   useEffect(() => {
     searchBar === ""
-      ? setProductos(prods)
+      ? setProductos(productos)
       : setProductos(
-          prods.filter((p) =>
+          productos.filter((p) =>
             p.description.toLowerCase().includes(searchBar.toLowerCase())
-          )
+          ) || []
         );
     return () => {};
   }, [searchBar]);
 
+  useEffect(() => {
+    fetch(`/api/v1/product`, { method: "GET" })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.code === 200) {
+          setProductos(data.productos);
+        } else {
+          throw new Error("No se pudieron cargar los productos.");
+        }
+      })
+      .catch((error) => {
+        if (error instanceof Error) {
+          setError(error);
+        } else {
+          setError(new Error("No se pudieron cargar los productos."));
+        }
+      });
+  }, []);
+
   return (
     <div className="mx-auto max-w-screen-2xl">
+      {error && (
+        <Alert
+          className="absolute w-80 bottom-10 left-[50%] translate-x-[-50%]"
+          severity="error"
+        >
+          <AlertTitle>Error</AlertTitle>
+          {error.message}
+        </Alert>
+      )}
       <div className="pt-[137px] px-8 sm:pt-[76px] md:px-6">
         <div className="pt-4">
           <Link
