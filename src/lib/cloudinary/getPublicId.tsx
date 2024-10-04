@@ -1,3 +1,13 @@
+export const getPublicId = (img: string, upload_preset: string): string => {
+  const public_id: string = img.slice(
+    img.indexOf(upload_preset) + upload_preset.length,
+    img.length - 4
+  );
+
+  return public_id;
+};
+
+/*
 export const handleDeleteImageFromCld = async (
   img: string,
   upload_preset: string
@@ -26,3 +36,4 @@ export const handleDeleteImageFromCld = async (
 
   return false;
 };
+*/

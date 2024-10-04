@@ -1,5 +1,5 @@
 "use client";
-import { handleDeleteImageFromCld } from "@/lib/cloudinary/handleDeleteImage";
+import { getPublicId } from "@/lib/cloudinary/getPublicId";
 import { ProductCardProps } from "@/lib/interfaces";
 import {
   AddCircleOutline,
@@ -41,11 +41,11 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
   };
 
   const handleDeleteImage = async () => {
-    const deleted: boolean | Error = await handleDeleteImageFromCld(
-      product.image,
-      "07-catalogo-gri"
-    );
-    if (deleted) {
+    const public_id: string = getPublicId(product.image, "07-catalogo-gri");
+    const res = await fetch(`/api/v1/cld${public_id}`, { method: "DELETE" });
+    const isDeleted = await res.json();
+
+    if (isDeleted.deleted) {
       setProduct({ ...product, image: "" });
     } else {
       Swal.fire({
