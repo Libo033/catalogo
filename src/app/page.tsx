@@ -2,56 +2,22 @@
 import ProductCard from "@/components/cards/ProductCard";
 import Image from "next/image";
 import cartCat from "../images/cart-cat.png";
-import { ProductCardProps } from "@/lib/interfaces";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Alert, AlertTitle } from "@mui/material";
+import { ProductContext } from "@/hooks/productContext";
 
 export default function Home() {
-  const [productos, setProductos] = useState<Array<ProductCardProps>>([]);
-  const [error, setError] = useState<Error | undefined>(undefined);
-  const searchParams = useSearchParams();
-  let searchBar = searchParams.get("search") || "";
-
-  useEffect(() => {
-    searchBar === ""
-      ? setProductos(productos)
-      : setProductos(
-          productos.filter((p) =>
-            p.description.toLowerCase().includes(searchBar.toLowerCase())
-          ) || []
-        );
-    return () => {};
-  }, [searchBar]);
-
-  useEffect(() => {
-    fetch(`/api/v1/product`, { method: "GET" })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.code === 200) {
-          setProductos(data.productos);
-        } else {
-          throw new Error("No se pudieron cargar los productos.");
-        }
-      })
-      .catch((error) => {
-        if (error instanceof Error) {
-          setError(error);
-        } else {
-          setError(new Error("No se pudieron cargar los productos."));
-        }
-      });
-  }, []);
+  const { productos, contextError } = useContext(ProductContext);
 
   return (
     <div className="mx-auto max-w-screen-2xl">
-      {error && (
+      {contextError && (
         <Alert
           className="absolute w-80 bottom-10 left-[50%] translate-x-[-50%]"
           severity="error"
         >
           <AlertTitle>Error</AlertTitle>
-          {error.message}
+          {contextError.message}
         </Alert>
       )}
       <div className="pt-[137px] px-8 sm:pt-[76px] md:px-6">

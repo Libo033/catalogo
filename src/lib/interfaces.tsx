@@ -7,3 +7,8 @@ export interface ProductCardProps {
   sale: boolean;
   various: Array<string>;
 }
+
+export interface IProductosContext {
+  productos: Array<ProductCardProps>;
+  contextError: Error | undefined;
+}

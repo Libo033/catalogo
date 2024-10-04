@@ -3,6 +3,7 @@ import "./globals.css";
 import { Sora } from "next/font/google";
 import NavigationBar from "@/components/navigation/NavigationBar";
 import { Suspense } from "react";
+import { ProductContextProvider } from "@/hooks/productContext";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="es">
       <body className={sora.className}>
         <NavigationBar />
-        <Suspense>{children}</Suspense>
+        <ProductContextProvider>
+          <Suspense>{children}</Suspense>
+        </ProductContextProvider>
       </body>
     </html>
   );
