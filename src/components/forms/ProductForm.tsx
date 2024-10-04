@@ -11,6 +11,7 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -19,6 +20,7 @@ interface ProductFormProps {
 }
 
 const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
+  const router = useRouter();
   const [product, setProduct] = useState<ProductCardProps>({
     id: id || "",
     image: "",
@@ -67,11 +69,19 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
     }
   };
 
-  const handleCreateProduct = (Event: FormEvent) => {
+  const handleCreateProduct = async (Event: FormEvent) => {
     Event.preventDefault();
 
-    console.log("Nuevo:");
-    console.log(product);
+    const res = await fetch(`/api/v1/product`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+    const data = await res.json();
+
+    if (data.code === 201) {
+      router.push("/admin/tablero");
+    }
   };
 
   const handleEditProduct = (Event: FormEvent) => {
