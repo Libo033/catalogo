@@ -4,11 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useContext } from "react";
 import cartCat from "../../../images/cart-cat.png";
-import { Alert, AlertTitle } from "@mui/material";
+import { Alert, AlertTitle, Skeleton } from "@mui/material";
 import { ProductContext } from "@/hooks/productContext";
 
 const page = () => {
-  const { productos, contextError } = useContext(ProductContext);
+  const { productos, load, contextError } = useContext(ProductContext);
 
   return (
     <div className="mx-auto max-w-screen-2xl">
@@ -31,26 +31,36 @@ const page = () => {
           </Link>
         </div>
         <section className="py-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3">
-          {productos.length > 0 ? (
-            productos.map((p) => (
-              <ProductCardAdmin
-                key={p._id}
-                _id={p._id}
-                image={p.image}
-                category={p.category}
-                description={p.description}
-                price={p.price}
-                sale={p.sale}
-                various={p.various}
-              />
-            ))
+          {load ? (
+            productos.length > 0 ? (
+              productos.map((p) => (
+                <ProductCardAdmin
+                  key={p._id}
+                  _id={p._id}
+                  image={p.image}
+                  category={p.category}
+                  description={p.description}
+                  price={p.price}
+                  sale={p.sale}
+                  various={p.various}
+                />
+              ))
+            ) : (
+              <div className="pt-24 col-span-6 flex flex-col items-center gap-3 md:pt-36">
+                <Image src={cartCat} alt="gato" width={100} height={100} />
+                <p className="text-pretty text-center text-xl font-medium">
+                  No hay nada aqui
+                </p>
+              </div>
+            )
           ) : (
-            <div className="pt-24 col-span-6 flex flex-col items-center gap-3 md:pt-36">
-              <Image src={cartCat} alt="gato" width={100} height={100} />
-              <p className="text-pretty text-center text-xl font-medium">
-                No hay nada aqui
-              </p>
-            </div>
+            <>
+              <Skeleton variant="rounded" sx={{ height: "458px" }} />
+              <Skeleton variant="rounded" sx={{ height: "458px" }} />
+              <Skeleton variant="rounded" sx={{ height: "458px" }} />
+              <Skeleton variant="rounded" sx={{ height: "458px" }} />
+              <Skeleton variant="rounded" sx={{ height: "458px" }} />
+            </>
           )}
         </section>
       </div>

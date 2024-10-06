@@ -6,6 +6,7 @@ import { createContext, useState, useEffect } from "react";
 const defaultValue: IProductosContext = {
   productos: [],
   contextError: undefined,
+  load: false,
 };
 
 export const ProductContext: React.Context<IProductosContext> =
@@ -17,6 +18,7 @@ export const ProductContextProvider: React.FC<{
   const [contextProductos, setContextProductos] = useState<
     Array<ProductCardProps>
   >([]);
+  const [load, setLoad] = useState<boolean>(false);
   const [productos, setProductos] = useState<Array<ProductCardProps>>([]);
   const [contextError, setContextError] = useState<Error | undefined>();
   const searchParams = useSearchParams();
@@ -29,11 +31,13 @@ export const ProductContextProvider: React.FC<{
         if (data.code === 200) {
           setContextProductos(data.productos);
           setProductos(data.productos);
+          setLoad(true);
         } else {
           throw new Error("No se pudieron cargar los productos.");
         }
       })
       .catch((error) => {
+        setLoad(true);
         if (error instanceof Error) {
           setContextError(error);
         } else {
@@ -54,7 +58,7 @@ export const ProductContextProvider: React.FC<{
   }, [searchBar]);
 
   return (
-    <ProductContext.Provider value={{ productos, contextError }}>
+    <ProductContext.Provider value={{ productos, contextError, load }}>
       {children}
     </ProductContext.Provider>
   );

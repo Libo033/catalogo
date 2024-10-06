@@ -11,4 +11,5 @@ export interface ProductCardProps {
 export interface IProductosContext {
   productos: Array<ProductCardProps>;
   contextError: Error | undefined;
+  load: boolean;
 }
