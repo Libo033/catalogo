@@ -1,3 +1,5 @@
+import { FormEvent } from "react";
+
 export interface ProductCardProps {
   _id: string;
   image: string;
@@ -12,4 +14,13 @@ export interface IProductosContext {
   productos: Array<ProductCardProps>;
   contextError: Error | undefined;
   load: boolean;
+  handleCreateProduct: (
+    Event: FormEvent,
+    product: ProductCardProps
+  ) => Promise<void>;
+  handleEditProduct: (
+    Event: FormEvent,
+    product: ProductCardProps
+  ) => Promise<void>;
+  handleDeleteProduct: (id: string) => Promise<void>;
 }

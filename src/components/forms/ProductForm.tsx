@@ -1,4 +1,5 @@
 "use client";
+import { ProductContext } from "@/hooks/productContext";
 import { getPublicId } from "@/lib/cloudinary/getPublicId";
 import { ProductCardProps } from "@/lib/interfaces";
 import {
@@ -12,7 +13,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
 import Swal from "sweetalert2";
 
 interface ProductFormProps {
@@ -20,6 +21,7 @@ interface ProductFormProps {
 }
 
 const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
+  const { handleCreateProduct, handleEditProduct } = useContext(ProductContext);
   const router = useRouter();
   const [product, setProduct] = useState<ProductCardProps>({
     _id: id || "",
@@ -60,35 +62,17 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
 
   // "any" Error al buscar el secure_url
   const handleLoadImage = (res: any) => {
-    if (res.event === "queues-end") {
-      let image = res.info.files[0].uploadInfo.secure_url;
+    try {
+      if (res.event === "queues-end") {
+        let image = res.info.files[0].uploadInfo.secure_url;
 
-      if (product.image === "" && typeof image === "string") {
-        setProduct({ ...product, image: image });
+        if (product.image === "" && typeof image === "string") {
+          setProduct({ ...product, image: image });
+        }
       }
-    }
-  };
-
-  const handleCreateProduct = async (Event: FormEvent) => {
-    Event.preventDefault();
-
-    const res = await fetch(`/api/v1/product`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
-    });
-    const data = await res.json();
-
-    if (data.code === 201) {
+    } catch (error) {
       router.push("/admin/tablero");
     }
-  };
-
-  const handleEditProduct = (Event: FormEvent) => {
-    Event.preventDefault();
-
-    console.log("Editado:");
-    console.log(product);
   };
 
   return (
@@ -101,8 +85,8 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
       <form
         onSubmit={
           id
-            ? (Event: FormEvent) => handleEditProduct(Event)
-            : (Event: FormEvent) => handleCreateProduct(Event)
+            ? (Event: FormEvent) => handleEditProduct(Event, product)
+            : (Event: FormEvent) => handleCreateProduct(Event, product)
         }
         className="pt-5 grid gap-4 sm:pt-7"
         action=""

@@ -1,9 +1,10 @@
+"use client";
+import { ProductContext } from "@/hooks/productContext";
 import { ProductCardProps } from "@/lib/interfaces";
 import { Button, Chip } from "@mui/material";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Swal from "sweetalert2";
-import React from "react";
+import React, { useContext } from "react";
 
 const ProductCardAdmin = ({
   _id,
@@ -14,32 +15,8 @@ const ProductCardAdmin = ({
   sale,
   various,
 }: Readonly<ProductCardProps>) => {
+  const { handleDeleteProduct } = useContext(ProductContext);
   const r = useRouter();
-
-  const handleDeleteProduct = async () => {
-    Swal.fire({
-      title: "Borrar producto?",
-      text: "Una vez borrado no se puede recuperar!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, borrar!",
-      cancelButtonText: "Cancelar",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const res = await fetch(`/api/v1/product/${_id}`, { method: "DELETE" });
-        const data = await res.json();
-
-        if (data.borrado) {
-          Swal.fire({
-            title: "Borrado!",
-            icon: "success",
-          });
-        }
-      }
-    });
-  };
 
   return (
     <article
@@ -91,7 +68,7 @@ const ProductCardAdmin = ({
         </Button>
         <Button
           fullWidth
-          onClick={() => handleDeleteProduct()}
+          onClick={() => handleDeleteProduct(_id)}
           color="error"
           variant="contained"
         >

@@ -1,12 +1,16 @@
 "use client";
 import { IProductosContext, ProductCardProps } from "@/lib/interfaces";
-import { useSearchParams } from "next/navigation";
-import { createContext, useState, useEffect } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { createContext, useState, useEffect, FormEvent } from "react";
+import Swal from "sweetalert2";
 
 const defaultValue: IProductosContext = {
   productos: [],
   contextError: undefined,
   load: false,
+  handleCreateProduct: async () => {},
+  handleEditProduct: async () => {},
+  handleDeleteProduct: async () => {},
 };
 
 export const ProductContext: React.Context<IProductosContext> =
@@ -21,8 +25,64 @@ export const ProductContextProvider: React.FC<{
   const [load, setLoad] = useState<boolean>(false);
   const [productos, setProductos] = useState<Array<ProductCardProps>>([]);
   const [contextError, setContextError] = useState<Error | undefined>();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   let searchBar = searchParams.get("search") || "";
+  const router = useRouter();
+
+  const handleCreateProduct = async (
+    Event: FormEvent,
+    product: ProductCardProps
+  ) => {
+    Event.preventDefault();
+
+    const res = await fetch(`/api/v1/product`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+    const data = await res.json();
+
+    if (data.code === 201) {
+      router.push("/admin/tablero");
+    }
+  };
+
+  const handleEditProduct = async (
+    Event: FormEvent,
+    product: ProductCardProps
+  ) => {
+    Event.preventDefault();
+
+    console.log("Editado:");
+    console.log(product);
+  };
+
+  const handleDeleteProduct = async (id: string) => {
+    Swal.fire({
+      title: "Borrar producto?",
+      text: "Una vez borrado no se puede recuperar!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, borrar!",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await fetch(`/api/v1/product/${id}`, { method: "DELETE" });
+        const data = await res.json();
+
+        if (data.borrado) {
+          setProductos({ ...contextProductos.filter((p) => p._id === id) });
+          Swal.fire({
+            title: "Borrado!",
+            icon: "success",
+          });
+        }
+      }
+    });
+  };
 
   useEffect(() => {
     fetch(`/api/v1/product`, { method: "GET" })
@@ -44,7 +104,7 @@ export const ProductContextProvider: React.FC<{
           setContextError(new Error("No se pudieron cargar los productos."));
         }
       });
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     searchBar === ""
@@ -58,7 +118,16 @@ export const ProductContextProvider: React.FC<{
   }, [searchBar]);
 
   return (
-    <ProductContext.Provider value={{ productos, contextError, load }}>
+    <ProductContext.Provider
+      value={{
+        productos,
+        contextError,
+        load,
+        handleCreateProduct,
+        handleEditProduct,
+        handleDeleteProduct,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   );
