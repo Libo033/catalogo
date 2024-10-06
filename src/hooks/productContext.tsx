@@ -74,7 +74,7 @@ export const ProductContextProvider: React.FC<{
         const data = await res.json();
 
         if (data.borrado) {
-          setProductos({ ...contextProductos.filter((p) => p._id === id) });
+          setProductos(productos.filter((p) => p._id !== id));
           Swal.fire({
             title: "Borrado!",
             icon: "success",
