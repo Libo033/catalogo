@@ -1,3 +1,4 @@
+import { getPublicId } from "@/lib/cloudinary/getPublicId";
 import { ProductCardProps } from "@/lib/interfaces";
 import clientPromise from "@/lib/mongodb/mongodb";
 import { Db, DeleteResult, MongoClient, ObjectId, UpdateResult } from "mongodb";
@@ -68,6 +69,13 @@ export async function DELETE(
       .findOne({ _id: new ObjectId(params.id) });
 
     if (producto) {
+      const public_id: string = getPublicId(producto.image, "07-catalogo-gri");
+      const res = await fetch(`/api/v1/cld${public_id}`, { method: "DELETE" });
+      const isDeleted = await res.json();
+
+      if (!isDeleted.deleted) {
+        throw new Error("No se pudo eliminar la imagen de cloudinary");
+      }
     } else {
       return Response.json(
         { Error: new Error("No se pudo eliminar la imagen"), code: 500 },

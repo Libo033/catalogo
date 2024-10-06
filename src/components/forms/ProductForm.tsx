@@ -22,7 +22,7 @@ interface ProductFormProps {
 const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
   const router = useRouter();
   const [product, setProduct] = useState<ProductCardProps>({
-    id: id || "",
+    _id: id || "",
     image: "",
     category: "",
     description: "",
@@ -95,7 +95,7 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
     <section className="pt-4 sm:flex sm:flex-col sm:items-center">
       <div>
         <p className="font-medium text-2xl sm:w-96 lg:text-3xl">
-          {id ? "Editar Producto" : "Nuevo Producto"}
+          {product._id ? "Editar Producto" : "Nuevo Producto"}
         </p>
       </div>
       <form
@@ -107,11 +107,11 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
         className="pt-5 grid gap-4 sm:pt-7"
         action=""
       >
-        {id && (
+        {product._id && (
           <div>
             <TextField
               fullWidth
-              value={id}
+              value={product._id}
               label="ID"
               variant="outlined"
               focused
@@ -230,7 +230,7 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
         </div>
         <div className="py-4 flex justify-center">
           <Button type="submit" className="w-40" variant="contained">
-            {id ? "editar" : "crear"}
+            {product._id ? "editar" : "crear"}
           </Button>
         </div>
       </form>

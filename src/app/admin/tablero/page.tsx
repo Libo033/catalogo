@@ -34,8 +34,8 @@ const page = () => {
           {productos.length > 0 ? (
             productos.map((p) => (
               <ProductCardAdmin
-                key={p.id}
-                id={p.id}
+                key={p._id}
+                _id={p._id}
                 image={p.image}
                 category={p.category}
                 description={p.description}

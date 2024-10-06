@@ -6,7 +6,7 @@ import Swal from "sweetalert2";
 import React from "react";
 
 const ProductCardAdmin = ({
-  id,
+  _id,
   image,
   category,
   description,
@@ -16,7 +16,7 @@ const ProductCardAdmin = ({
 }: Readonly<ProductCardProps>) => {
   const r = useRouter();
 
-  const handleDeleteProduct = () => {
+  const handleDeleteProduct = async () => {
     Swal.fire({
       title: "Borrar producto?",
       text: "Una vez borrado no se puede recuperar!",
@@ -26,19 +26,24 @@ const ProductCardAdmin = ({
       cancelButtonColor: "#d33",
       confirmButtonText: "Sí, borrar!",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Borrado!",
-          icon: "success",
-        });
+        const res = await fetch(`/api/v1/product/${_id}`, { method: "DELETE" });
+        const data = await res.json();
+
+        if (data.borrado) {
+          Swal.fire({
+            title: "Borrado!",
+            icon: "success",
+          });
+        }
       }
     });
   };
 
   return (
     <article
-      id={id}
+      id={_id}
       className={`w-full flex flex-col bg-white border shadow-lg rounded-lg`}
     >
       <div className="w-full p-4 rounded-lg relative">
@@ -77,7 +82,7 @@ const ProductCardAdmin = ({
       </div>
       <div className="px-4 pt-4 pb-4 flex gap-2">
         <Button
-          onClick={() => r.push(`/admin/tablero/producto/${id}`)}
+          onClick={() => r.push(`/admin/tablero/producto/${_id}`)}
           fullWidth
           color="primary"
           variant="contained"

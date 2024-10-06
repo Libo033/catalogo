@@ -25,8 +25,8 @@ export default function Home() {
           {productos.length > 0 ? (
             productos.map((p) => (
               <ProductCard
-                key={p.id}
-                id={p.id}
+                key={p._id}
+                _id={p._id}
                 image={p.image}
                 category={p.category}
                 description={p.description}
