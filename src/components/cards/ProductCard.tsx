@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 
 const ProductCard = ({
-  id,
+  _id,
   image,
   category,
   description,
@@ -19,7 +19,7 @@ const ProductCard = ({
     const product: ShareData = {
       title: "Me interesa!",
       text: description,
-      url: `http://192.168.0.190:3000/#${id}`,
+      url: `http://192.168.0.190:3000/#${_id}`,
     };
 
     if (navigator) {
@@ -36,7 +36,7 @@ const ProductCard = ({
 
   return (
     <article
-      id={id}
+      id={_id}
       className={`w-full flex flex-col bg-white border shadow-lg rounded-lg`}
     >
       <div className="w-full p-4 rounded-lg relative">
@@ -63,7 +63,7 @@ const ProductCard = ({
         <p className="text-[#2b5e2c] font-extrabold">{category}</p>
         <p className="font-medium h-12 text-pretty">{description}</p>
       </div>
-      <div className="min-h-[28px] mx-4 grid grid-flow-col gap-2 overflow-x-auto overflow-y-hidden">
+      <div className="min-h-[28px] mx-4 flex gap-2 overflow-x-auto overflow-y-hidden">
         {various.map((ch, i) => (
           <Chip
             key={i + ch}

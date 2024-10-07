@@ -47,7 +47,7 @@ const ProductCardAdmin = ({
         <p className="text-[#2b5e2c] font-extrabold">{category}</p>
         <p className="font-medium h-12 text-pretty">{description}</p>
       </div>
-      <div className="min-h-[28px] mx-4 grid grid-flow-col gap-2 overflow-x-auto overflow-y-hidden">
+      <div className="min-h-[28px] mx-4 flex gap-2 overflow-x-auto overflow-y-hidden">
         {various.map((ch, i) => (
           <Chip
             key={i + ch}
