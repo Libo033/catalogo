@@ -34,6 +34,7 @@ export const ProductContextProvider: React.FC<{
     Event: FormEvent,
     product: ProductCardProps
   ) => {
+    // AGREGAR TRY CATCH
     Event.preventDefault();
 
     const res = await fetch(`/api/v1/product`, {
@@ -54,11 +55,20 @@ export const ProductContextProvider: React.FC<{
   ) => {
     Event.preventDefault();
 
-    console.log("Editado:");
-    console.log(product);
+    const res = await fetch(`/api/v1/product/${product._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+    const data = await res.json();
+
+    if (data.modificado) {
+      router.push("/admin/tablero");
+    }
   };
 
   const handleDeleteProduct = async (id: string) => {
+    // AGREGAR TRY CATCH
     Swal.fire({
       title: "Borrar producto?",
       text: "Una vez borrado no se puede recuperar!",

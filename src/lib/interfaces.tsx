@@ -24,3 +24,12 @@ export interface IProductosContext {
   ) => Promise<void>;
   handleDeleteProduct: (id: string) => Promise<void>;
 }
+
+export interface ProductFormProps {
+  id: string | null;
+}
+
+export interface APIResponseGetOne {
+  code: number;
+  producto: ProductCardProps;
+}

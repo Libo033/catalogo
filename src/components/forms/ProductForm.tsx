@@ -1,7 +1,11 @@
 "use client";
 import { ProductContext } from "@/hooks/productContext";
 import { getPublicId } from "@/lib/cloudinary/getPublicId";
-import { ProductCardProps } from "@/lib/interfaces";
+import {
+  APIResponseGetOne,
+  ProductCardProps,
+  ProductFormProps,
+} from "@/lib/interfaces";
 import {
   AddCircleOutline,
   CloseRounded,
@@ -13,12 +17,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Swal from "sweetalert2";
-
-interface ProductFormProps {
-  id: string | null;
-}
 
 const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
   const { handleCreateProduct, handleEditProduct } = useContext(ProductContext);
@@ -45,13 +51,18 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
   };
 
   const handleDeleteImage = async () => {
-    const public_id: string = getPublicId(product.image, "07-catalogo-gri");
-    const res = await fetch(`/api/v1/cld${public_id}`, { method: "DELETE" });
-    const isDeleted = await res.json();
+    try {
+      // Borrar imagen sin subir el producto completo a la DB.
+      const public_id: string = getPublicId(product.image, "07-catalogo-gri");
+      const res = await fetch(`/api/v1/cld${public_id}`, { method: "DELETE" });
+      const isDeleted = await res.json();
 
-    if (isDeleted.deleted) {
-      setProduct({ ...product, image: "" });
-    } else {
+      if (isDeleted.deleted) {
+        setProduct({ ...product, image: "" });
+      } else {
+        throw new Error("No se pudo borrar la imagen");
+      }
+    } catch (error) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
@@ -74,6 +85,22 @@ const ProductForm = ({ id }: Readonly<ProductFormProps>) => {
       router.push("/admin/tablero");
     }
   };
+
+  useEffect(() => {
+    if (id) {
+      fetch(`/api/v1/product/${id}`, { method: "GET" })
+        .then((res) => res.json())
+        .then((data: APIResponseGetOne) => {
+          if (data.code === 200) {
+            setProduct(data.producto);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    return () => {};
+  }, []);
 
   return (
     <section className="pt-4 sm:flex sm:flex-col sm:items-center">
