@@ -34,18 +34,25 @@ export const ProductContextProvider: React.FC<{
     Event: FormEvent,
     product: ProductCardProps
   ) => {
-    // AGREGAR TRY CATCH
-    Event.preventDefault();
+    try {
+      Event.preventDefault();
 
-    const res = await fetch(`/api/v1/product`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
-    });
-    const data = await res.json();
+      const res = await fetch(`/api/v1/product`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
+      const data = await res.json();
 
-    if (data.code === 201) {
-      router.push("/admin/tablero");
+      if (data.code === 201) {
+        router.push("/admin/tablero");
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No se pudo crear el producto",
+      });
     }
   };
 
@@ -53,17 +60,25 @@ export const ProductContextProvider: React.FC<{
     Event: FormEvent,
     product: ProductCardProps
   ) => {
-    Event.preventDefault();
+    try {
+      Event.preventDefault();
 
-    const res = await fetch(`/api/v1/product/${product._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
-    });
-    const data = await res.json();
+      const res = await fetch(`/api/v1/product/${product._id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(product),
+      });
+      const data = await res.json();
 
-    if (data.modificado) {
-      router.push("/admin/tablero");
+      if (data.modificado) {
+        router.push("/admin/tablero");
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "No se pudo editar el producto",
+      });
     }
   };
 
@@ -80,14 +95,24 @@ export const ProductContextProvider: React.FC<{
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const res = await fetch(`/api/v1/product/${id}`, { method: "DELETE" });
-        const data = await res.json();
+        try {
+          const res = await fetch(`/api/v1/product/${id}`, {
+            method: "DELETE",
+          });
+          const data = await res.json();
 
-        if (data.borrado) {
-          setProductos(productos.filter((p) => p._id !== id));
+          if (data.borrado) {
+            setProductos(productos.filter((p) => p._id !== id));
+            Swal.fire({
+              title: "Borrado!",
+              icon: "success",
+            });
+          }
+        } catch (error) {
           Swal.fire({
-            title: "Borrado!",
-            icon: "success",
+            icon: "error",
+            title: "Oops...",
+            text: "No se pudo borrar el producto",
           });
         }
       }
