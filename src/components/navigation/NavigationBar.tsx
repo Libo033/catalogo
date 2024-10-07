@@ -54,13 +54,17 @@ const NavigationBar = () => {
               <li className="hidden sm:block sm:w-full">
                 <SearchBar />
               </li>
-              <li className="mx-8 md:hidden">
+
+              {/* block --- Proximamente */}
+              <li className="hidden mx-8 md:hidden">
                 <MenuRounded
                   onClick={onOpenDrawer}
                   sx={{ fontSize: "45px", color: "white", cursor: "pointer" }}
                 />
               </li>
-              <li className="hidden mx-8 md:block">
+
+              <li className="hidden mx-8 ">
+                {/* md:block --- Proximamente */}
                 <FilterAlt
                   onClick={onOpenDialog}
                   sx={{ fontSize: "45px", color: "white", cursor: "pointer" }}
