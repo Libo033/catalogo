@@ -1,7 +1,7 @@
 "use client";
 import { FilterAlt, MenuRounded } from "@mui/icons-material";
 import Link from "next/link";
-import React, { useCallback, useState } from "react";
+import React, { Suspense, useCallback, useState } from "react";
 import SearchBar from "../other/SearchBar";
 import NavigationDrawer from "./NavigationDrawer";
 import { Dialog, Drawer } from "@mui/material";
@@ -75,16 +75,16 @@ const NavigationBar = () => {
               <SearchBar />
             </div>
             <Drawer anchor="top" open={toggleDrawer} onClose={onCloseDrawer}>
-              <NavigationDrawer
+              {/*<NavigationDrawer
                 onCloseDrawer={onCloseDrawer}
                 category={categoryMock}
-              />
+              />*/}
             </Drawer>
             <Dialog open={toggleDialog} onClose={onCloseDialog}>
-              <FilterBox
+              {/*<FilterBox
                 onCloseDialog={onCloseDialog}
                 category={categoryMock}
-              />
+              />*/}
             </Dialog>
           </nav>
         </div>
