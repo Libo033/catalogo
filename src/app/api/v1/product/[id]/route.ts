@@ -72,7 +72,7 @@ export async function DELETE(
     if (producto) {
       const public_id: string = getPublicId(producto.image, "07-catalogo-gri");
       const isDeleted = await cloudinary.uploader.destroy(
-        "07-catalogo-gri/" + public_id,
+        "07-catalogo-gri" + public_id,
         { resource_type: "image" }
       );
 
