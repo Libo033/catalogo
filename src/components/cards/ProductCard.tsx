@@ -19,7 +19,7 @@ const ProductCard = ({
     const product: ShareData = {
       title: "Me interesa!",
       text: description,
-      url: `https://catalogo-griselda.vercel.app/#${_id}`,
+      url: `https://catalogo-griselda.vercel.app/${_id}`,
     };
 
     if (navigator) {
