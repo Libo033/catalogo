@@ -13,7 +13,7 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   title: "Catalogo",
-  description: "Catalogo",
+  description: "Catalogo de Griselda Salazar",
 };
 
 export default function RootLayout({
