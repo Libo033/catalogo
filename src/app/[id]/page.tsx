@@ -1,12 +1,31 @@
 "use client";
 import { ProductCardProps } from "@/lib/interfaces";
-import { Chip, Skeleton } from "@mui/material";
+import { Button, Chip, Skeleton } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const page = ({ params }: { params: { id: string } }) => {
   const [producto, setProducto] = useState<ProductCardProps>();
+  const [shareError, setShareError] = useState<Error | undefined>();
+
+  const shareProduct = () => {
+    const product: ShareData = {
+      title: "Me interesa!",
+      url: `https://catalogo-griselda.vercel.app/${producto?._id}`,
+    };
+
+    if (navigator) {
+      navigator
+        .share(product)
+        .then(() => console.log("Compartiendo..."))
+        .catch((err: Error) =>
+          setShareError(new Error("No se pudo compartir"))
+        );
+    } else {
+      setShareError(new Error("Dispositivo incompatible"));
+    }
+  };
 
   useEffect(() => {
     fetch(`/api/v1/product/${params.id}`, { method: "GET" })
@@ -22,7 +41,7 @@ const page = ({ params }: { params: { id: string } }) => {
 
   return (
     <div className="mx-auto max-w-screen-2xl">
-      <div className="pt-[137px] px-8 sm:pt-[76px] md:px-6 lg:px-20">
+      <div className="pt-[137px] px-8 sm:pt-[76px] md:px-48 lg:px-32">
         <div className="pt-4">
           <Link
             className="flex items-center gap-2 underline text-blue-600"
@@ -32,11 +51,11 @@ const page = ({ params }: { params: { id: string } }) => {
           </Link>
         </div>
       </div>
-      <div className="pt-6 md:h-[78vh] md:flex md:items-center lg:px-20">
-        <div className="px-4 w-full h-fit md:w-1/2 md:flex md:justify-center">
+      <div className="pt-6 md:h-[78vh] md:px-48 lg:flex lg:items-center lg:px-20">
+        <div className="px-4 w-full h-fit md:px-0 lg:w-1/2 lg:flex lg:justify-center">
           {producto ? (
             <Image
-              className="flex max-h-[390px] border rounded-lg shadow-sm object-cover sm:max-h-[600px] md:w-[540px] md:h-[540px] lg:h-[480px] lg:w-[480px]"
+              className="flex max-h-[390px] border rounded-lg shadow-sm object-cover sm:max-h-[600px] md:max-h-[900px] md:h-[540px] lg:h-[480px] lg:w-[480px]"
               src={producto.image}
               alt={producto.description}
               width={2000}
@@ -50,7 +69,7 @@ const page = ({ params }: { params: { id: string } }) => {
             />
           )}
         </div>
-        <div className="px-4 pt-4 flex flex-col gap-4 sm:px-8 md:w-1/2">
+        <div className="px-4 pt-4 flex flex-col gap-4 sm:px-8">
           {producto ? (
             <p className="text-[#2b5e2c] font-extrabold text-xl sm:text-2xl">
               {producto.category}
@@ -91,7 +110,7 @@ const page = ({ params }: { params: { id: string } }) => {
             </div>
           )}
           {producto ? (
-            <div className="pt-4 pb-12 flex gap-3 items-center md:pt-12">
+            <div className="pt-4 flex gap-3 items-center md:pt-12">
               <p className="px-5 py-1 text-3xl text-white w-fit bg-[#2b5e2c] rounded-lg font-bold sm:text-4xl">
                 ${Intl.NumberFormat().format(producto.price).toString()}
               </p>
@@ -112,6 +131,37 @@ const page = ({ params }: { params: { id: string } }) => {
               }}
             />
           )}
+          {producto ? (
+            <p className="text-gray-500 w-fit pt-8 text-xs">
+              ID: {producto._id}
+            </p>
+          ) : (
+            <Skeleton variant="rounded" sx={{ height: "16px" }} />
+          )}
+          <div className="pb-12">
+            {producto ? (
+              shareError === undefined ? (
+                <Button
+                  onClick={shareProduct}
+                  sx={{
+                    color: "#fff",
+                    borderColor: "#2b5e2c",
+                    backgroundColor: "#2b5e2c",
+                  }}
+                  fullWidth
+                  variant="contained"
+                >
+                  COMPARTIR
+                </Button>
+              ) : (
+                <Button fullWidth variant="contained" color="error">
+                  {shareError.message}
+                </Button>
+              )
+            ) : (
+              <Skeleton variant="rounded" sx={{ height: "37px" }} />
+            )}
+          </div>
         </div>
       </div>
     </div>
