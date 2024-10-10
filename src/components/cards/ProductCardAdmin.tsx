@@ -25,7 +25,7 @@ const ProductCardAdmin = ({
     >
       <div className="w-full p-4 rounded-lg relative">
         <Image
-          className="w-full h-64 object-cover object-center flex justify-center rounded-md"
+          className="w-full h-80 object-cover object-center flex justify-center rounded-md"
           src={image}
           alt={description}
           width={1200}

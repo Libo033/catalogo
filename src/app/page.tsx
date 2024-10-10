@@ -47,11 +47,11 @@ export default function Home() {
             )
           ) : (
             <>
-              <Skeleton variant="rounded" sx={{ height: "458px" }} />
-              <Skeleton variant="rounded" sx={{ height: "458px" }} />
-              <Skeleton variant="rounded" sx={{ height: "458px" }} />
-              <Skeleton variant="rounded" sx={{ height: "458px" }} />
-              <Skeleton variant="rounded" sx={{ height: "458px" }} />
+              <Skeleton variant="rounded" sx={{ height: "522px" }} />
+              <Skeleton variant="rounded" sx={{ height: "522px" }} />
+              <Skeleton variant="rounded" sx={{ height: "522px" }} />
+              <Skeleton variant="rounded" sx={{ height: "522px" }} />
+              <Skeleton variant="rounded" sx={{ height: "522px" }} />
             </>
           )}
         </section>
