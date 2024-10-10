@@ -39,7 +39,7 @@ const ProductCard = ({
     <Link href={`/${_id}`}>
       <article
         id={_id}
-        className={`w-full flex flex-col bg-white border shadow-lg rounded-lg`}
+        className={`pb-2 w-full flex flex-col bg-white border shadow-lg rounded-lg`}
       >
         <div className="w-full p-4 rounded-lg relative">
           <Image
@@ -76,26 +76,6 @@ const ProductCard = ({
               sx={{ backgroundColor: "#c5d86e", width: "fit-content" }}
             />
           ))}
-        </div>
-        <div className="px-4 pt-4 pb-2">
-          {shareError === undefined ? (
-            <Button
-              onClick={shareProduct}
-              sx={{
-                color: "#fff",
-                borderColor: "#2b5e2c",
-                backgroundColor: "#2b5e2c",
-              }}
-              fullWidth
-              variant="contained"
-            >
-              COMPARTIR
-            </Button>
-          ) : (
-            <Button fullWidth variant="contained" color="error">
-              {shareError.message}
-            </Button>
-          )}
         </div>
       </article>
     </Link>
